@@ -1,0 +1,798 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="Internship viva presentation: Company Brain and UNBIFY Discover.">
+<style>
+  :root{ color-scheme: light dark;
+    padding-top: env(safe-area-inset-top, 0px); padding-bottom: env(safe-area-inset-bottom, 0px); }
+  body{ margin:0 }
+  img{ max-width:100% }
+  [hidden]{ display:none !important }
+</style>
+<title>Company Brain &amp; UNBIFY Discover</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;800&family=IBM+Plex+Mono:wght@400;500;600&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&display=swap">
+<style>
+:root{
+  --ground:#EEF2F6; --surface:#FFFFFF; --surface-2:#E4EBF2;
+  --line:#C6D3E1; --line-soft:#DCE4EC;
+  --text:#10192A; --dim:#4F5F77;
+  --blue:#15697F; --blue-soft:rgba(21,105,127,.10);
+  --signal:#9C6212; --signal-soft:rgba(156,98,18,.12);
+  --bad:#9B3A2F; --bad-soft:rgba(155,58,47,.12);
+  --grid:rgba(21,105,127,.055);
+  --shadow:0 1px 2px rgba(16,25,42,.05), 0 8px 24px rgba(16,25,42,.06);
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --ground:#0C1320; --surface:#131D2C; --surface-2:#182435;
+    --line:#26374E; --line-soft:#1D2B3E;
+    --text:#E9EEF5; --dim:#90A2B9;
+    --blue:#6BC5D8; --blue-soft:rgba(107,197,216,.12);
+    --signal:#E8A33D; --signal-soft:rgba(232,163,61,.14);
+    --bad:#E08573; --bad-soft:rgba(224,133,115,.14);
+    --grid:rgba(107,197,216,.055);
+    --shadow:0 1px 2px rgba(0,0,0,.4), 0 12px 32px rgba(0,0,0,.34);
+  }
+}
+:root[data-theme="dark"]{
+  --ground:#0C1320; --surface:#131D2C; --surface-2:#182435;
+  --line:#26374E; --line-soft:#1D2B3E;
+  --text:#E9EEF5; --dim:#90A2B9;
+  --blue:#6BC5D8; --blue-soft:rgba(107,197,216,.12);
+  --signal:#E8A33D; --signal-soft:rgba(232,163,61,.14);
+  --bad:#E08573; --bad-soft:rgba(224,133,115,.14);
+  --grid:rgba(107,197,216,.055);
+  --shadow:0 1px 2px rgba(0,0,0,.4), 0 12px 32px rgba(0,0,0,.34);
+}
+
+html,body{height:100%}
+body{
+  background:var(--ground); color:var(--text);
+  font-family:'Archivo','Helvetica Neue',Arial,sans-serif;
+  font-size:16px; line-height:1.5; margin:0; -webkit-font-smoothing:antialiased;
+}
+*{box-sizing:border-box}
+h1,h2,h3{text-wrap:balance; margin:0; font-weight:600; letter-spacing:-.02em}
+p{margin:0}
+ul{margin:0; padding:0; list-style:none}
+table{border-collapse:collapse; width:100%}
+
+/* ---------- rail ---------- */
+.rail{
+  position:fixed; left:0; top:0; bottom:0; width:222px; z-index:20;
+  padding:env(safe-area-inset-top,0px) 0 env(safe-area-inset-bottom,0px);
+  display:none; flex-direction:column; justify-content:center; gap:1px;
+  border-right:1px solid var(--line-soft); background:var(--ground);
+}
+.rail a{
+  display:grid; grid-template-columns:30px 1fr; align-items:center; gap:6px;
+  padding:7px 18px; text-decoration:none; color:var(--dim);
+  font-size:12.5px; line-height:1.3; border-left:2px solid transparent;
+}
+.rail a .n{font-family:'IBM Plex Mono',ui-monospace,monospace; font-size:10.5px; letter-spacing:.06em}
+.rail a[aria-current="true"]{color:var(--text); border-left-color:var(--blue); background:var(--blue-soft)}
+.rail a[aria-current="true"] .n{color:var(--blue)}
+.rail a:focus-visible{outline:2px solid var(--blue); outline-offset:-2px}
+.railhead{padding:0 18px 16px; font-family:'IBM Plex Mono',ui-monospace,monospace; font-size:10px;
+  letter-spacing:.16em; text-transform:uppercase; color:var(--dim)}
+
+/* ---------- sheets ---------- */
+main{height:100%; overflow-y:auto; scroll-behavior:smooth}
+.sheet{
+  padding-block:68px; padding-inline:clamp(16px,5vw,40px);
+  background-image:linear-gradient(var(--grid) 1px,transparent 1px),
+                   linear-gradient(90deg,var(--grid) 1px,transparent 1px);
+  background-size:52px 52px;
+}
+.sheet + .sheet{border-top:1px solid var(--line-soft)}
+.wrap{width:min(1120px,100%); margin-inline:auto; display:flex; flex-direction:column; gap:clamp(20px,3vh,32px)}
+
+.eyebrow{font-family:'IBM Plex Mono',ui-monospace,monospace; font-size:11.5px; font-weight:500;
+  letter-spacing:.2em; text-transform:uppercase; color:var(--blue)}
+h1{font-size:clamp(36px,6vw,66px); line-height:1.02; font-weight:800; letter-spacing:-.035em}
+h2{font-size:clamp(27px,4vw,44px); line-height:1.08}
+h3{font-size:17px; line-height:1.3}
+.lede{font-family:'Source Serif 4',Georgia,serif; font-size:clamp(17px,2vw,20px);
+  line-height:1.55; color:var(--dim); max-width:64ch}
+.body{font-size:15px; line-height:1.6; color:var(--dim)}
+.mono{font-family:'IBM Plex Mono',ui-monospace,monospace}
+.footnote{font-family:'IBM Plex Mono',ui-monospace,monospace; font-size:11.5px; color:var(--dim); line-height:1.7}
+.caption{font-size:13px; line-height:1.55; color:var(--dim)}
+
+/* ---------- blocks ---------- */
+.cols{display:grid; grid-template-columns:1.15fr .85fr; gap:clamp(22px,3vw,40px); align-items:start}
+.cols.even{grid-template-columns:1fr 1fr}
+.stack{display:flex; flex-direction:column; gap:14px}
+.trio{display:grid; grid-template-columns:repeat(3,1fr); gap:14px}
+.quad{display:grid; grid-template-columns:repeat(4,1fr); gap:14px}
+.panel{background:var(--surface); border:1px solid var(--line); border-radius:8px; padding:22px; box-shadow:var(--shadow)}
+.card{background:var(--surface); border:1px solid var(--line-soft); border-radius:8px; padding:18px;
+  display:flex; flex-direction:column; gap:8px}
+.card h3{color:var(--blue)}
+.card p{font-size:14px; line-height:1.55; color:var(--dim)}
+.chip{font-family:'IBM Plex Mono',ui-monospace,monospace; font-size:14px; padding:10px 14px;
+  background:var(--surface); border:1px solid var(--line-soft); border-radius:5px}
+.reflabel{display:inline-block; font-family:'IBM Plex Mono',ui-monospace,monospace; font-size:10.5px;
+  letter-spacing:.16em; text-transform:uppercase; color:var(--signal);
+  background:var(--signal-soft); border-radius:3px; padding:4px 8px}
+.bignum{font-family:'IBM Plex Mono',ui-monospace,monospace; font-size:clamp(40px,6vw,58px); font-weight:600;
+  line-height:1; letter-spacing:-.04em; margin-block:12px 10px; font-variant-numeric:tabular-nums}
+.rule{display:flex; gap:18px; align-items:baseline; border-left:2px solid var(--signal);
+  padding:14px 18px; background:var(--signal-soft); border-radius:0 6px 6px 0}
+.rule .k{font-family:'IBM Plex Mono',ui-monospace,monospace; font-size:11px; letter-spacing:.16em;
+  text-transform:uppercase; color:var(--signal); flex:0 0 auto}
+.rule p{font-size:15px; line-height:1.55}
+
+/* ---------- system cards (cover) ---------- */
+.sys{display:grid; grid-template-columns:1fr 1fr; gap:14px}
+.sys .panel{display:flex; flex-direction:column; gap:10px}
+.sys .nm{font-family:'IBM Plex Mono',ui-monospace,monospace; font-size:11px; letter-spacing:.18em;
+  text-transform:uppercase; color:var(--blue)}
+.sys h3{font-size:19px}
+.sys .meta{display:flex; flex-direction:column; gap:5px; margin-top:4px}
+.sys .meta div{display:grid; grid-template-columns:96px 1fr; gap:10px; font-size:13px; color:var(--dim)}
+.sys .meta b{font-family:'IBM Plex Mono',ui-monospace,monospace; font-size:11px; letter-spacing:.1em;
+  text-transform:uppercase; font-weight:500; color:var(--dim); opacity:.8}
+
+/* ---------- steppers / workflows ---------- */
+.pipe{display:flex; align-items:stretch}
+.node{flex:1; background:var(--surface); border:1px solid var(--line-soft); border-radius:8px;
+  padding:14px 14px; display:flex; flex-direction:column; gap:6px; min-width:0}
+.node .n{font-family:'IBM Plex Mono',ui-monospace,monospace; font-size:10px; letter-spacing:.16em; color:var(--blue)}
+.node h3{font-size:15px}
+.node p{font-size:12.5px; line-height:1.45; color:var(--dim)}
+.node.hot{border-color:var(--signal)}
+.node.hot .n{color:var(--signal)}
+.link{flex:0 0 clamp(16px,2.4vw,34px); align-self:center; height:2px; position:relative;
+  background:repeating-linear-gradient(90deg,var(--line) 0 5px,transparent 5px 10px)}
+.link i{position:absolute; top:-3px; left:0; width:8px; height:8px; border-radius:50%; background:var(--blue)}
+@media (prefers-reduced-motion:no-preference){
+  .link i{animation:travel 2.6s cubic-bezier(.65,0,.35,1) infinite}
+  .link:nth-of-type(4) i{animation-delay:.14s}
+  .link:nth-of-type(6) i{animation-delay:.28s}
+  .link:nth-of-type(8) i{animation-delay:.42s}
+  .link:nth-of-type(10) i{animation-delay:.56s}
+}
+@media (prefers-reduced-motion:reduce){.link i{display:none}}
+@keyframes travel{0%{left:0;opacity:0}12%{opacity:1}88%{opacity:1}100%{left:calc(100% - 8px);opacity:0}}
+
+.states{display:flex; flex-wrap:wrap; align-items:center; gap:8px}
+.state{font-family:'IBM Plex Mono',ui-monospace,monospace; font-size:12.5px; padding:8px 12px;
+  border-radius:5px; border:1px solid var(--line); background:var(--surface); white-space:nowrap}
+.state.gate{border-color:var(--signal); background:var(--signal-soft); color:var(--signal); font-weight:600}
+.state.term{border-style:dashed; color:var(--dim)}
+.state.term.bad{border-color:var(--bad); color:var(--bad); background:var(--bad-soft)}
+.arrow{font-family:'IBM Plex Mono',ui-monospace,monospace; color:var(--dim); font-size:13px}
+
+/* ---------- tables ---------- */
+.tablewrap{overflow-x:auto; border:1px solid var(--line-soft); border-radius:8px; background:var(--surface)}
+table th,table td{text-align:left; padding:10px 14px; border-bottom:1px solid var(--line-soft); vertical-align:top}
+table tr:last-child td{border-bottom:none}
+table th{font-family:'IBM Plex Mono',ui-monospace,monospace; font-size:10.5px; letter-spacing:.14em;
+  text-transform:uppercase; color:var(--dim); font-weight:500; white-space:nowrap}
+table td{font-size:13.5px; line-height:1.5; color:var(--dim)}
+table td:first-child{color:var(--text); font-weight:500; white-space:nowrap}
+table td .mono{font-size:12.5px}
+
+/* ---------- charts ---------- */
+.chart{display:flex; flex-direction:column; gap:9px}
+.chart .row{display:grid; grid-template-columns:minmax(96px,168px) 1fr minmax(60px,auto); gap:12px; align-items:center}
+.chart .lab{font-size:13px; line-height:1.35; color:var(--dim)}
+.chart .track{height:20px; background:var(--surface-2); border-radius:3px; position:relative; overflow:hidden}
+.chart .fill{position:absolute; top:0; bottom:0; left:0; background:var(--blue); border-radius:3px}
+.chart .fill.warn{background:var(--signal)}
+.chart .fill.bad{background:var(--bad)}
+.chart .val{font-family:'IBM Plex Mono',ui-monospace,monospace; font-size:12.5px; text-align:right;
+  font-variant-numeric:tabular-nums; color:var(--text)}
+.axis{display:flex; justify-content:space-between; font-family:'IBM Plex Mono',ui-monospace,monospace;
+  font-size:10.5px; color:var(--dim); border-top:1px solid var(--line-soft); padding-top:5px; margin-top:2px}
+.chart .row.axisrow{grid-template-columns:minmax(96px,168px) 1fr minmax(60px,auto)}
+
+.tl{position:relative; height:34px; background:var(--surface-2); border-radius:4px; overflow:hidden}
+.tl span{position:absolute; top:0; bottom:0; display:flex; align-items:center; justify-content:center;
+  font-family:'IBM Plex Mono',ui-monospace,monospace; font-size:11px; color:var(--text); overflow:hidden}
+.tl .b1{background:var(--blue-soft)}
+.tl .b2{background:var(--blue-soft); background:color-mix(in srgb,var(--blue) 22%,transparent)}
+.tl .b3{background:var(--signal-soft); background:color-mix(in srgb,var(--signal) 26%,transparent)}
+.tl .b4{background:var(--bad-soft); background:color-mix(in srgb,var(--bad) 24%,transparent)}
+.tl2{position:relative; height:22px; margin-top:6px}
+.tl2 span{position:absolute; top:0; bottom:0; border-radius:3px; display:flex; align-items:center;
+  padding-inline:8px; font-family:'IBM Plex Mono',ui-monospace,monospace; font-size:10.5px;
+  color:var(--text); background:var(--surface); border:1px solid var(--line); white-space:nowrap; overflow:hidden}
+.legend{display:flex; flex-wrap:wrap; gap:8px 18px}
+.legend div{display:flex; align-items:center; gap:7px; font-size:12.5px; color:var(--dim)}
+.legend i{width:11px; height:11px; border-radius:2px; flex:0 0 auto}
+
+/* ---------- seam ---------- */
+.seam{display:flex; flex-direction:column; border:1px solid var(--line); border-radius:8px;
+  overflow:hidden; background:var(--surface)}
+.seam .zone{padding:17px 20px; display:flex; flex-direction:column; gap:9px}
+.seam .boundary{background:var(--ground); border-block:1px dashed var(--line); padding:12px 20px;
+  display:flex; flex-wrap:wrap; gap:8px 14px; align-items:baseline}
+.seam .boundary .sig{font-family:'IBM Plex Mono',ui-monospace,monospace; font-size:13.5px; font-weight:600; color:var(--blue)}
+.seam .boundary .note{font-size:12.5px; color:var(--dim)}
+.zonelabel{font-family:'IBM Plex Mono',ui-monospace,monospace; font-size:10.5px; letter-spacing:.16em;
+  text-transform:uppercase; color:var(--dim)}
+.layers{display:flex; flex-wrap:wrap; gap:7px}
+.layer{font-size:13px; padding:6px 11px; border:1px solid var(--line-soft); border-radius:5px; color:var(--dim)}
+.execs{display:flex; flex-wrap:wrap; gap:9px}
+.exec{font-family:'IBM Plex Mono',ui-monospace,monospace; font-size:13.5px; font-weight:500;
+  padding:9px 15px; border-radius:5px; cursor:pointer; color:var(--dim);
+  background:transparent; border:1px dashed var(--line); transition:.18s ease}
+.exec:hover{color:var(--text); border-color:var(--blue)}
+.exec[aria-pressed="true"]{background:var(--signal); border:1px solid var(--signal); color:#171009; font-weight:600}
+.exec:focus-visible{outline:2px solid var(--blue); outline-offset:2px}
+.seamnote{font-size:13.5px; line-height:1.55; color:var(--dim); min-height:3em}
+.stamp{font-family:'IBM Plex Mono',ui-monospace,monospace; font-size:10.5px; letter-spacing:.14em;
+  text-transform:uppercase; color:var(--blue); opacity:0; transition:opacity .25s ease}
+.stamp.on{opacity:1}
+
+/* ---------- ladder / gate ---------- */
+.ladder{display:flex; flex-direction:column; gap:7px}
+.rung{display:grid; grid-template-columns:28px 1fr; gap:12px; align-items:start;
+  background:var(--surface); border:1px solid var(--line-soft); border-left:3px solid var(--blue);
+  border-radius:0 6px 6px 0; padding:12px 16px}
+.rung .n{font-family:'IBM Plex Mono',ui-monospace,monospace; font-size:11.5px; color:var(--blue); padding-top:2px}
+.rung h3{font-size:15px}
+.rung p{font-size:13px; line-height:1.5; color:var(--dim); margin-top:3px}
+.rung.gated{border-left-color:var(--signal); background:var(--signal-soft)}
+.rung.gated .n{color:var(--signal)}
+.gatebar{display:flex; flex-wrap:wrap; align-items:center; gap:10px 22px; padding:12px 16px;
+  border:1px dashed var(--line); border-radius:6px}
+.grp{display:flex; align-items:center; gap:8px}
+.need{font-family:'IBM Plex Mono',ui-monospace,monospace; font-size:11.5px; color:var(--dim)}
+.gateout{display:flex; flex-direction:column; gap:7px}
+.gatebar .lbl{font-family:'IBM Plex Mono',ui-monospace,monospace; font-size:11px;
+  letter-spacing:.14em; text-transform:uppercase; color:var(--dim)}
+.step{width:30px; height:30px; border-radius:5px; border:1px solid var(--line); background:var(--surface);
+  color:var(--text); font-size:16px; line-height:1; cursor:pointer}
+.step:hover{border-color:var(--blue)}
+.step:focus-visible{outline:2px solid var(--blue); outline-offset:2px}
+.count{font-family:'IBM Plex Mono',ui-monospace,monospace; font-size:16px; font-weight:600;
+  min-width:1.4em; text-align:center; font-variant-numeric:tabular-nums}
+.verdict{font-size:13.5px; color:var(--dim)}
+.verdict b{color:var(--signal)}
+.verdict.open b{color:var(--blue)}
+
+/* ---------- reveal ---------- */
+@media (prefers-reduced-motion:no-preference){
+  .sheet.in .wrap > *{animation:rise .5s cubic-bezier(.22,.8,.3,1) both}
+  .sheet.in .wrap > *:nth-child(2){animation-delay:.05s}
+  .sheet.in .wrap > *:nth-child(3){animation-delay:.1s}
+  .sheet.in .wrap > *:nth-child(4){animation-delay:.15s}
+  .sheet.in .wrap > *:nth-child(5){animation-delay:.2s}
+}
+@keyframes rise{from{opacity:.15; transform:translateY(12px)}to{opacity:1; transform:none}}
+
+/* ---------- responsive ---------- */
+@media (min-width:1120px){
+  .rail{display:flex}
+  main{padding-left:222px; scroll-snap-type:y proximity}
+  .sheet{min-height:100%; display:flex; flex-direction:column; justify-content:center;
+    scroll-snap-align:start; padding-block:52px}
+}
+@media (max-width:1119px){ .cols,.cols.even{grid-template-columns:1fr} .quad{grid-template-columns:repeat(2,1fr)} }
+@media (max-width:760px){
+  .trio,.sys{grid-template-columns:1fr}
+  .pipe{flex-direction:column}
+  .link{flex:0 0 22px; width:2px; height:22px; align-self:start; margin-left:24px;
+    background:repeating-linear-gradient(180deg,var(--line) 0 5px,transparent 5px 10px)}
+  .link i{display:none}
+  .chart .row{grid-template-columns:1fr; gap:4px}
+  .chart .val{text-align:left}
+  .sys .meta div{grid-template-columns:86px 1fr}
+}
+@media (max-width:460px){ .quad{grid-template-columns:1fr} }
+
+/* ---------- standalone theme toggle ---------- */
+#themetoggle{
+  position:fixed; left:16px; bottom:16px; z-index:40;
+  padding:8px 13px; border-radius:6px; cursor:pointer;
+  font-family:'IBM Plex Mono',ui-monospace,monospace; font-size:11px; letter-spacing:.14em;
+  text-transform:uppercase; color:var(--dim);
+  background:var(--surface); border:1px solid var(--line);
+}
+#themetoggle:hover{ color:var(--text); border-color:var(--blue) }
+#themetoggle:focus-visible{ outline:2px solid var(--blue); outline-offset:2px }
+@media print{ #themetoggle,.rail{ display:none } }
+</style>
+</head>
+<body>
+
+<button id="themetoggle" type="button" aria-label="Switch colour theme">Theme</button>
+
+<nav class="rail" aria-label="Sections">
+  <p class="railhead">Internship viva 2026</p>
+  <a href="#s1"><span class="n">01</span><span>Opening</span></a>
+  <a href="#s2"><span class="n">02</span><span>Organizational memory</span></a>
+  <a href="#s3"><span class="n">03</span><span>Extraction workflow</span></a>
+  <a href="#s4"><span class="n">04</span><span>Retrieval &amp; ranking</span></a>
+  <a href="#s5"><span class="n">05</span><span>Action lifecycle</span></a>
+  <a href="#s6"><span class="n">06</span><span>What shipped</span></a>
+  <a href="#s7"><span class="n">07</span><span>The Discover journey</span></a>
+  <a href="#s8"><span class="n">08</span><span>The intelligence core</span></a>
+  <a href="#s9"><span class="n">09</span><span>Latency budgets</span></a>
+  <a href="#s10"><span class="n">10</span><span>World intelligence</span></a>
+</nav>
+
+<main id="deck">
+
+<section class="sheet" id="s1">
+  <div class="wrap">
+    <p class="eyebrow">Internship viva &middot; 2026</p>
+    <h1>Company Brain<br>&amp; UNBIFY Discover</h1>
+    <p class="lede">Two systems built end to end. One gives a company a memory of itself. The other turns a person&rsquo;s own evidence into opportunities &mdash; and refuses to claim more than that evidence supports.</p>
+    <div class="sys">
+      <div class="panel">
+        <span class="nm">System one</span>
+        <h3>Company Brain</h3>
+        <p class="body">Connects to the tools a company already uses, extracts what is inside them, and answers questions with the source attached.</p>
+        <div class="meta">
+          <div><b>Runtime</b><span>TypeScript monorepo &mdash; Fastify API, Next.js app, three workers</span></div>
+          <div><b>State</b><span>PostgreSQL + Prisma, Redis, Qdrant vectors, MinIO objects</span></div>
+          <div><b>Orchestration</b><span>Temporal workflows for every multi-step, retryable job</span></div>
+          <div><b>Surface</b><span>22 API modules &middot; 182 endpoints &middot; 41 screens &middot; 5 MCP tools</span></div>
+        </div>
+      </div>
+      <div class="panel">
+        <span class="nm">System two</span>
+        <h3>UNBIFY Discover</h3>
+        <p class="body">A four-chapter journey that builds an evidence ledger about a person, then routes that evidence to real opportunities &mdash; or abstains.</p>
+        <div class="meta">
+          <div><b>Runtime</b><span>Python &mdash; FastAPI modular monolith, static web client</span></div>
+          <div><b>State</b><span>PostgreSQL + pgvector. No Redis, no Celery, no broker.</span></div>
+          <div><b>Orchestration</b><span>Postgres itself &mdash; jobs claimed with <span class="mono">SKIP LOCKED</span></span></div>
+          <div><b>Surface</b><span>83 tables &middot; 22 migrations &middot; 110 tests &middot; per-phase latency budgets</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="sheet" id="s2">
+  <div class="wrap">
+    <p class="eyebrow">Project one &middot; Company Brain</p>
+    <h2>Organizational memory</h2>
+    <div class="cols">
+      <div class="stack">
+        <p class="lede">Company knowledge is made wherever it is convenient &mdash; Docs, Sheets, Drive, Calendar, Gmail, a call nobody wrote down. Nobody moves it into one system, so nobody can query it.</p>
+        <div class="stack" style="gap:7px">
+          <p class="chip">Where is X?</p>
+          <p class="chip">Who owns Y?</p>
+          <p class="chip">What did we decide about Z?</p>
+        </div>
+        <p class="body">Company Brain connects to the tools people already use, extracts what is inside them, and answers in one place &mdash; with the source attached to every answer.</p>
+      </div>
+      <div class="panel">
+        <span class="reflabel">Where the idea came from</span>
+        <p class="bignum">15,000</p>
+        <p class="body">questions a day to Cerebras&rsquo; internal knowledge base, three months after launch.</p>
+        <p class="body" style="margin-top:10px"><b style="color:var(--text)">Not my project and not my company.</b> I read their engineering write-up while building mine and took the premise from it: pull data from each platform where it already lives, instead of asking anyone to change how they work.</p>
+        <p class="footnote" style="margin-top:12px">Reference only &middot; cerebras.ai &middot; no affiliation</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="sheet" id="s3">
+  <div class="wrap">
+    <p class="eyebrow">Temporal workflow &middot; queue <span class="mono">brain-core</span> &middot; auto-triggered per document</p>
+    <h2>The extraction workflow</h2>
+    <div class="pipe">
+      <div class="node"><span class="n">01</span><h3>EXTRACT</h3><p>Chunk &rarr; LLM &rarr; Zod-validated JSON</p></div>
+      <div class="link"><i></i></div>
+      <div class="node"><span class="n">02</span><h3>RELATIONSHIPS</h3><p>Document node and its edges</p></div>
+      <div class="link"><i></i></div>
+      <div class="node"><span class="n">03</span><h3>DEDUPLICATE</h3><p>Entity resolution and merge</p></div>
+      <div class="link"><i></i></div>
+      <div class="node"><span class="n">04</span><h3>TIMELINE</h3><p>Mention events backfilled</p></div>
+      <div class="link"><i></i></div>
+      <div class="node"><span class="n">05</span><h3>EMBED</h3><p>Entity vectors to Qdrant</p></div>
+      <div class="link"><i></i></div>
+      <div class="node"><span class="n">06</span><h3>FINALIZE</h3><p>Run stats onto the document</p></div>
+    </div>
+    <div class="tablewrap">
+      <table>
+        <tr><th>Stage</th><th>What it does</th><th>What it writes</th></tr>
+        <tr><td>EXTRACT</td><td>Each chunk goes to the LLM and comes back as JSON that must satisfy a strict per-type schema</td><td class="mono">KnowledgeObject, EntityAlias, EntityMention, KnowledgeReference</td></tr>
+        <tr><td>RELATIONSHIPS</td><td>Materializes the source document as a node so traversal can answer &ldquo;where was this mentioned&rdquo;</td><td class="mono">KnowledgeRelationship (20 types)</td></tr>
+        <tr><td>DEDUPLICATE</td><td>Re-scans entities touched by this run and merges survivors, retargeting their edges</td><td class="mono">mergedIntoId, retargeted edges</td></tr>
+        <tr><td>TIMELINE</td><td>Backfills a MENTIONED event so every entity has a chronology, not just a current state</td><td class="mono">TimelineEvent</td></tr>
+        <tr><td>EMBED</td><td>Entity vectors written to a per-organization collection, separate from document chunks</td><td class="mono">Qdrant &lt;org&gt;_knowledge</td></tr>
+        <tr><td>FINALIZE</td><td>Records what this run actually produced, so a re-extraction is diffable</td><td class="mono">Document.metadata</td></tr>
+      </table>
+    </div>
+    <div class="trio">
+      <div class="card"><h3>Failure is scoped to a chunk</h3><p>Invalid JSON retries once with the validation errors fed back to the model. A second failure marks that <em>chunk</em> failed and the document keeps going &mdash; one bad paragraph never loses a file.</p></div>
+      <div class="card"><h3>Resolution happens before the write</h3><p>Normalized title, then the alias table, then Dice-bigram similarity at 0.85. A hit updates the entity that already exists rather than creating a near-duplicate.</p></div>
+      <div class="card"><h3>The provider is a parameter</h3><p>One <span class="mono">LLMProvider</span> interface with five implementations &mdash; Anthropic, OpenAI, Gemini, local, and a rule-based mock that keeps the suite offline and deterministic.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="sheet" id="s4">
+  <div class="wrap">
+    <p class="eyebrow">Project one &middot; <span class="mono">packages/retrieval</span></p>
+    <h2>What the Brain reaches for first</h2>
+    <div class="cols even">
+      <div class="stack">
+        <p class="body">Every answer is assembled from ranked sources. The base weight per source kind is declared in one table, and position inside a kind decays it by 0.05 per rank &mdash; so ordering is a property of the code, not of a prompt, and it can be argued with.</p>
+        <div class="chart" aria-label="Base relevance weight by source kind">
+          <div class="row"><span class="lab">Knowledge graph</span><span class="track"><span class="fill" style="width:90%"></span></span><span class="val">0.90</span></div>
+          <div class="row"><span class="lab">Documents</span><span class="track"><span class="fill" style="width:80%"></span></span><span class="val">0.80</span></div>
+          <div class="row"><span class="lab">Memory</span><span class="track"><span class="fill" style="width:75%"></span></span><span class="val">0.75</span></div>
+          <div class="row"><span class="lab">Executed actions</span><span class="track"><span class="fill warn" style="width:72%"></span></span><span class="val">0.72</span></div>
+          <div class="row"><span class="lab">Meetings</span><span class="track"><span class="fill" style="width:70%"></span></span><span class="val">0.70</span></div>
+          <div class="row"><span class="lab">Email</span><span class="track"><span class="fill" style="width:65%"></span></span><span class="val">0.65</span></div>
+          <div class="row"><span class="lab">Calendar</span><span class="track"><span class="fill" style="width:60%"></span></span><span class="val">0.60</span></div>
+          <div class="row"><span class="lab">Web search</span><span class="track"><span class="fill bad" style="width:55%"></span></span><span class="val">0.55</span></div>
+          <div class="row axisrow"><span></span><span class="axis"><span>0</span><span>0.25</span><span>0.50</span><span>0.75</span><span>1.0</span></span><span></span></div>
+        </div>
+        <p class="caption">Two deliberate calls sit in this chart. Web search is last, so internal company knowledge wins every tie by construction. The Brain&rsquo;s own executed actions rank above meetings, because &ldquo;what have I already done about this&rdquo; is usually the freshest thing it knows.</p>
+      </div>
+      <div class="stack">
+        <div class="panel">
+          <span class="zonelabel">Authorization as data reach</span>
+          <p class="body" style="margin-top:10px">A source declares which scopes it serves and reads only what that scope allows. There is no imperative permission check to forget &mdash; a source that should not see something cannot query it.</p>
+          <div class="tablewrap" style="margin-top:14px">
+            <table>
+              <tr><th>Scope</th><th>Reaches</th></tr>
+              <tr><td>Team</td><td>The collective org brain: graph, memory, meetings, and every member&rsquo;s synced Drive, Docs, Calendar and Gmail</td></tr>
+              <tr><td>Personal</td><td>All of the above, plus your own executed actions &mdash; which never surface in a team chat</td></tr>
+            </table>
+          </div>
+        </div>
+        <div class="card"><h3>Adding a source is one file</h3><p>Implement <span class="mono">RetrievalSource</span>, add it to the default list, declare its scopes. Slack, GitHub or a CRM would change nothing else in the stack.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="sheet" id="s5">
+  <div class="wrap">
+    <p class="eyebrow">Project one &middot; the Action Layer</p>
+    <h2>Nothing runs without a human</h2>
+    <div class="panel" style="padding:18px 20px">
+      <span class="zonelabel">Action lifecycle &mdash; the state machine in <span class="mono">ActionStatus</span></span>
+      <div class="states" style="margin-top:12px">
+        <span class="state">PLANNING</span><span class="arrow">&rarr;</span>
+        <span class="state">NEEDS_INPUT</span><span class="arrow">&rarr;</span>
+        <span class="state">PENDING_APPROVAL</span><span class="arrow">&rarr;</span>
+        <span class="state gate">APPROVED</span><span class="arrow">&rarr;</span>
+        <span class="state">RUNNING</span><span class="arrow">&rarr;</span>
+        <span class="state">COMPLETED</span>
+      </div>
+      <div class="states" style="margin-top:12px">
+        <span class="zonelabel" style="align-self:center">Exits</span>
+        <span class="state term">REJECTED</span>
+        <span class="state term">CANCELLED</span>
+        <span class="state term bad">FAILED</span>
+        <span class="caption">A failed step halts the run: the action is marked FAILED and every remaining step becomes SKIPPED, so nothing is ever left stuck in RUNNING.</span>
+      </div>
+    </div>
+    <div class="seam">
+      <div class="zone">
+        <span class="zonelabel">Above the line <span class="stamp" id="stamp">&mdash; unchanged</span></span>
+        <div class="layers">
+          <span class="layer">Planning Service</span>
+          <span class="layer">Approval gate</span>
+          <span class="layer">Execution Service</span>
+          <span class="layer">Actions UI</span>
+        </div>
+      </div>
+      <div class="boundary">
+        <span class="sig">interface ExecutionEngine</span>
+        <span class="note">One method: run a step someone has already decided on.</span>
+      </div>
+      <div class="zone">
+        <span class="zonelabel">Below the line &mdash; swap the implementation</span>
+        <div class="execs">
+          <button class="exec" type="button" data-exec="openclaw" aria-pressed="false">openclaw:cli</button>
+          <button class="exec" type="button" data-exec="hermes" aria-pressed="true">hermes</button>
+        </div>
+        <p class="seamnote" id="seamnote"></p>
+      </div>
+    </div>
+    <p class="footnote">The adapter was written before either executor existed &mdash; which is the only reason replacing one cost a factory function.</p>
+  </div>
+</section>
+
+<section class="sheet" id="s6">
+  <div class="wrap">
+    <p class="eyebrow">Project one &middot; nine phases, one monorepo</p>
+    <h2>What shipped</h2>
+    <div class="quad">
+      <div class="card"><h3>Ask Brain</h3><p>Ask, replay an entity&rsquo;s history, or brief on what changed over a window</p></div>
+      <div class="card"><h3>Knowledge Graph</h3><p>Projects as the boundary; traversal, inferred edges, entity timelines</p></div>
+      <div class="card"><h3>Knowledge Board</h3><p>Trello over the graph &mdash; drag a card, the graph writes back</p></div>
+      <div class="card"><h3>Meetings</h3><p>Calendar-first, auto-join capture, transcript to knowledge</p></div>
+      <div class="card"><h3>Actions</h3><p>Plan, approve, execute, and an audit trail of every step</p></div>
+      <div class="card"><h3>Governance</h3><p>A data-driven law and scoring engine for launch checks</p></div>
+      <div class="card"><h3>Studio</h3><p>Scenes first, slides derived &mdash; decks from what the Brain knows</p></div>
+      <div class="card"><h3>MCP servers</h3><p>The Brain as five tools any agent can call</p></div>
+    </div>
+    <div class="rule">
+      <span class="k">The through-line</span>
+      <p>Every surface reads the same knowledge store. Nothing on this page has its own copy of the truth &mdash; the Board, Ask, Studio and the MCP tools are four views of one graph, which is why a change in one appears in all of them.</p>
+    </div>
+    <p class="footnote">Fastify &middot; Next.js &middot; PostgreSQL + Prisma &middot; Redis &middot; Temporal &middot; Qdrant &middot; MinIO &middot; BullMQ &middot; pnpm workspaces</p>
+  </div>
+</section>
+
+<section class="sheet" id="s7">
+  <div class="wrap">
+    <p class="eyebrow">Project two &middot; UNBIFY Discover</p>
+    <h2>The Discover journey</h2>
+    <div class="trio">
+      <div class="card">
+        <span class="mono" style="font-size:10.5px; letter-spacing:.16em; color:var(--signal)">PART ONE &mdash; MEANING</span>
+        <h3 style="font-size:19px">Discover</h3>
+        <p>Four chapters and a Final Mirror. Evidence decides which closing beats exist &mdash; what survived, what we changed our mind about, what we still would not claim. No personality slots, no prescribed career.</p>
+      </div>
+      <div class="card">
+        <span class="mono" style="font-size:10.5px; letter-spacing:.16em; color:var(--signal)">PART TWO &mdash; VALUE</span>
+        <h3 style="font-size:19px">Materialization</h3>
+        <p>The story becomes objects you can test: a professional position, capability and leverage maps, gaps, ranked directions &mdash; and for each direction, the cheapest experiment that would settle its real uncertainty.</p>
+      </div>
+      <div class="card">
+        <span class="mono" style="font-size:10.5px; letter-spacing:.16em; color:var(--signal)">PART THREE &mdash; WORK</span>
+        <h3 style="font-size:19px">My UNBIFY</h3>
+        <p>A workspace that persists: questions that sharpen precision, actions ranked by progress. Dismissing something is ranking feedback, and an experiment&rsquo;s outcome is the strongest evidence the system receives.</p>
+      </div>
+    </div>
+    <div class="panel" style="padding:16px 20px">
+      <span class="zonelabel">Object lifecycle &mdash; every materialized object moves through this</span>
+      <div class="states" style="margin-top:11px">
+        <span class="state">new</span><span class="arrow">&rarr;</span>
+        <span class="state">exploring</span><span class="arrow">&rarr;</span>
+        <span class="state">saved</span><span class="arrow">&rarr;</span>
+        <span class="state gate">testing</span><span class="arrow">&rarr;</span>
+        <span class="state">active</span><span class="arrow">&rarr;</span>
+        <span class="state">completed</span>
+        <span class="arrow">/</span><span class="state term">dismissed</span>
+      </div>
+    </div>
+    <div class="rule">
+      <span class="k">The hard rule</span>
+      <p>The workspace, and the Opportunity Map inside it, are unreachable before Chapter&nbsp;4 closes &mdash; enforced by a server-owned state machine, not by the client, and covered by tests.</p>
+    </div>
+  </div>
+</section>
+
+<section class="sheet" id="s8">
+  <div class="wrap">
+    <p class="eyebrow">Project two &middot; knowledge, interpretation, thresholds</p>
+    <h2>The intelligence core</h2>
+    <div class="cols">
+      <div class="stack">
+        <div class="ladder">
+          <div class="rung"><span class="n">L1</span><div><h3>Explicit facts</h3><p>What the user actually said, stored with its provenance</p></div></div>
+          <div class="rung"><span class="n">L2</span><div><h3>Derived facts</h3><p>Conservative normalizations, and nothing more adventurous</p></div></div>
+          <div class="rung"><span class="n">L3</span><div><h3>Hypotheses</h3><p>Carry supporting <b>and</b> contradicting evidence ids, versioned &mdash; never silently overwritten</p></div></div>
+          <div class="rung gated" id="rung4"><span class="n">L4</span><div><h3 id="r4h">Actionable conclusions &mdash; withheld</h3><p id="r4p">Role-level analysis is blocked at the validation layer until several independent sources agree.</p></div></div>
+        </div>
+        <div class="gatebar">
+          <div class="grp">
+            <span class="lbl">Professional facts</span>
+            <button class="step" type="button" id="fminus" aria-label="Fewer facts">&minus;</button>
+            <span class="count" id="fcount">2</span>
+            <button class="step" type="button" id="fplus" aria-label="More facts">+</button>
+            <span class="need">/ 4</span>
+          </div>
+          <div class="grp">
+            <span class="lbl">Supported features</span>
+            <button class="step" type="button" id="sminus" aria-label="Fewer supported features">&minus;</button>
+            <span class="count" id="scount">1</span>
+            <button class="step" type="button" id="splus" aria-label="More supported features">+</button>
+            <span class="need">/ 2</span>
+          </div>
+        </div>
+        <div class="gateout">
+          <p class="verdict" id="verdict"></p>
+          <p class="caption">A <em>supported feature</em> is a dimension at confidence &ge; 0.60 (<span class="mono">PROFESSIONAL_SURFACE</span>) carrying at least 2 pieces of evidence (<span class="mono">HYPOTHESIS_MIN_EVIDENCE</span>). Both gate thresholds live in one versioned file, <span class="mono">thresh_v1</span>, so tuning stays auditable.</p>
+        </div>
+      </div>
+      <div class="stack">
+        <div class="card"><h3>Abstain beats overreach</h3><p>A reveal softens or stays silent when the claim would outrun the evidence. Silence is a valid outcome.</p></div>
+        <div class="card"><h3>Corrections cascade</h3><p>Being told we were wrong writes <span class="mono">inference_feedback</span> and invalidates every conclusion downstream of it.</p></div>
+        <div class="card"><h3>Ambiguity is named, not resolved</h3><p>&ldquo;I manage codes and softwares&rdquo; becomes <span class="mono">works_with_software</span> plus an open ambiguity &mdash; never a management inference.</p></div>
+        <div class="card"><h3>A refusal has to say what is missing</h3><p>The gate returns counts, not a boolean, so an abstention screen can name the gap. &ldquo;Not enough evidence&rdquo; is a verdict about the system &mdash; a person cannot recognise themselves in it.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="sheet" id="s9">
+  <div class="wrap">
+    <p class="eyebrow">Project two &middot; <span class="mono">app/latency.py</span> &middot; <span class="mono">GET /v1/debug/latency</span></p>
+    <h2>Latency is measured, not guessed</h2>
+    <div class="cols even">
+      <div class="stack">
+        <p class="body">Every request records how long each phase actually took, against a budget declared in code. Anything over budget is flagged on the row itself, so a complaint about feel is traceable to a phase instead of argued about.</p>
+        <div class="chart" aria-label="Per-phase latency budgets in milliseconds">
+          <div class="row"><span class="lab">policy</span><span class="track"><span class="fill" style="width:15%"></span></span><span class="val">150 ms</span></div>
+          <div class="row"><span class="lab">persist</span><span class="track"><span class="fill" style="width:30%"></span></span><span class="val">300 ms</span></div>
+          <div class="row"><span class="lab">signals</span><span class="track"><span class="fill" style="width:30%"></span></span><span class="val">300 ms</span></div>
+          <div class="row"><span class="lab">hypotheses</span><span class="track"><span class="fill" style="width:30%"></span></span><span class="val">300 ms</span></div>
+          <div class="row"><span class="lab"><b style="color:var(--text)">total</b></span><span class="track"><span class="fill warn" style="width:100%"></span></span><span class="val">1000 ms</span></div>
+          <div class="row axisrow"><span></span><span class="axis"><span>0</span><span>250</span><span>500</span><span>750</span><span>1000 ms</span></span><span></span></div>
+        </div>
+        <p class="caption">Narrative generation has its own 6-second budget and sits outside this total &mdash; the journey completes with the model offline, so it can never be on the critical path.</p>
+      </div>
+      <div class="stack">
+        <p class="body">The finding that mattered most was not in the code at all. One interaction is roughly <b style="color:var(--text)">20 database round trips</b>, so the database&rsquo;s distance dominates everything else I could tune.</p>
+        <div class="chart" aria-label="Interaction time by database region">
+          <div class="row"><span class="lab">Database in-region<br><span class="mono" style="font-size:11px">~20 ms / round trip</span></span><span class="track"><span class="fill" style="width:10%"></span></span><span class="val">~0.5 s</span></div>
+          <div class="row"><span class="lab">Database in ap-northeast-1<br><span class="mono" style="font-size:11px">~194 ms / round trip</span></span><span class="track"><span class="fill bad" style="width:88%"></span></span><span class="val">4&ndash;5 s</span></div>
+          <div class="row axisrow"><span></span><span class="axis"><span>0</span><span>1s</span><span>2s</span><span>3s</span><span>4s</span><span>5s</span></span><span></span></div>
+        </div>
+        <p class="caption">Same code, same query count, an order of magnitude apart. Put the database next to the users &mdash; measured, then written into the deployment notes so nobody rediscovers it.</p>
+      </div>
+    </div>
+    <div class="panel" style="padding:18px 20px">
+      <span class="zonelabel">What the user is shown while that happens</span>
+      <div class="tl" style="margin-top:12px">
+        <span class="b1" style="left:0; width:3.8%"></span>
+        <span class="b2" style="left:3.8%; width:11.6%">ambient</span>
+        <span class="b3" style="left:15.4%; width:23.1%">one plain line</span>
+        <span class="b4" style="left:38.5%; width:61.5%">explicit transparency</span>
+      </div>
+      <div class="tl2">
+        <span style="left:30.8%; width:46.1%">LLM completion 4&ndash;10 s</span>
+        <span style="left:53.9%; width:46.1%; opacity:.72">Final Mirror 7&ndash;13 s</span>
+      </div>
+      <div class="axis"><span>0</span><span>2 s</span><span>5 s</span><span>10 s</span><span>13 s</span></div>
+      <div class="legend" style="margin-top:14px">
+        <div><i style="background:var(--blue-soft); border:1px solid var(--line)"></i>under 500 ms &mdash; no thinking state at all</div>
+        <div><i style="background:var(--blue-soft); background:color-mix(in srgb,var(--blue) 22%,transparent)"></i>to 2 s &mdash; motion, no words</div>
+        <div><i style="background:var(--signal-soft); background:color-mix(in srgb,var(--signal) 26%,transparent)"></i>to 5 s &mdash; one plain line</div>
+        <div><i style="background:var(--bad-soft); background:color-mix(in srgb,var(--bad) 24%,transparent)"></i>beyond &mdash; say what is happening</div>
+      </div>
+      <p class="caption" style="margin-top:12px">Before any of this, the client acknowledges the tap locally in about <b style="color:var(--text)">3 ms</b> &mdash; the choice settles, the rest softens, duplicate input locks &mdash; and the leave animation starts <em>alongside</em> the request rather than after it. Submission is idempotent, so a retry cannot double-count evidence or advance a chapter twice.</p>
+    </div>
+  </div>
+</section>
+
+<section class="sheet" id="s10">
+  <div class="wrap">
+    <p class="eyebrow">Project two &middot; the opportunity layer</p>
+    <h2>World intelligence, on one database</h2>
+    <div class="cols">
+      <div class="ladder">
+        <div class="rung"><span class="n">01</span><div><h3>Ontology</h3><p>Occupations, aliases and external mappings &mdash; trades, clinical, legal, military, retail and knowledge work, not a hardcoded career list</p></div></div>
+        <div class="rung"><span class="n">02</span><div><h3>Ingestion</h3><p>Every source carries a compliance record. One community post is never market evidence.</p></div></div>
+        <div class="rung"><span class="n">03</span><div><h3>Signals</h3><p>Aggregated with confidence, source diversity and recency decay &mdash; conflicts between sources are kept, not averaged away</p></div></div>
+        <div class="rung"><span class="n">04</span><div><h3>Matching</h3><p>Your evidence projected into capability space; regulated work gated on eligibility; thin coverage abstains and queues a targeted refresh</p></div></div>
+      </div>
+      <div class="panel">
+        <span class="reflabel" style="color:var(--blue); background:var(--blue-soft)">No Redis. No Celery. No broker.</span>
+        <ul class="stack" style="margin-top:14px; gap:12px">
+          <li class="body"><span class="mono" style="color:var(--text)">intelligence_jobs</span> is the queue, claimed with <span class="mono">SELECT &hellip; FOR UPDATE SKIP LOCKED</span>.</li>
+          <li class="body">A scope hash collapses identical concurrent requests: twenty people asking the same question cause <b style="color:var(--text)">one</b> scrape &mdash; asserted by a test.</li>
+          <li class="body">A per-scope cooldown stops refresh loops when a signal simply is not obtainable. The system says so instead of scraping forever.</li>
+          <li class="body">Freshness is checked <b style="color:var(--text)">per signal</b> &mdash; job postings age in a day, occupation definitions in months.</li>
+        </ul>
+      </div>
+    </div>
+    <p class="footnote">Refresh returns a state, never a stale answer pretending to be fresh: CURRENT &middot; REFRESHING &middot; PARTIAL &middot; STALE_BUT_USABLE &middot; INSUFFICIENT</p>
+  </div>
+</section>
+
+</main>
+
+<script>
+(function(){
+  var deck = document.getElementById('deck');
+  var sheets = Array.prototype.slice.call(document.querySelectorAll('.sheet'));
+  var links = Array.prototype.slice.call(document.querySelectorAll('.rail a'));
+  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var current = 0;
+
+  var io = new IntersectionObserver(function(entries){
+    entries.forEach(function(e){
+      if(!e.isIntersecting) return;
+      e.target.classList.add('in');
+      var i = sheets.indexOf(e.target);
+      if(i < 0 || i === current) return;
+      current = i;
+      links.forEach(function(a, j){ a.setAttribute('aria-current', j === i ? 'true' : 'false'); });
+    });
+  }, { root: deck, threshold: 0.3 });
+  sheets.forEach(function(s){ io.observe(s); });
+  links.forEach(function(a, j){ a.setAttribute('aria-current', j === 0 ? 'true' : 'false'); });
+
+  function go(i){
+    i = Math.max(0, Math.min(sheets.length - 1, i));
+    sheets[i].scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'start' });
+  }
+  document.addEventListener('keydown', function(e){
+    var t = e.target;
+    if(t && (t.tagName === 'INPUT' || t.tagName === 'TEXTAREA' || t.tagName === 'BUTTON')) {
+      if(e.key !== 'ArrowRight' && e.key !== 'ArrowLeft') return;
+    }
+    if(e.key === 'ArrowRight' || e.key === 'PageDown' || (e.key === ' ' && !e.shiftKey)){ e.preventDefault(); go(current + 1); }
+    else if(e.key === 'ArrowLeft' || e.key === 'PageUp'){ e.preventDefault(); go(current - 1); }
+    else if(e.key === 'Home'){ e.preventDefault(); go(0); }
+    else if(e.key === 'End'){ e.preventDefault(); go(sheets.length - 1); }
+  });
+  links.forEach(function(a, j){ a.addEventListener('click', function(e){ e.preventDefault(); go(j); }); });
+
+  /* the adapter seam */
+  var EXEC = {
+    openclaw: 'The executor I shipped first. Each planned step is handed to the OpenClaw CLI as one JSON instruction on stdin; it prints a JSON result on stdout.',
+    hermes: 'The executor today. Same contract, different binary — so the swap changed the factory that picks one, and nothing else.'
+  };
+  var seamnote = document.getElementById('seamnote');
+  var stamp = document.getElementById('stamp');
+  var execs = Array.prototype.slice.call(document.querySelectorAll('.exec'));
+  function setExec(key){
+    execs.forEach(function(b){ b.setAttribute('aria-pressed', b.getAttribute('data-exec') === key ? 'true' : 'false'); });
+    seamnote.textContent = EXEC[key];
+    stamp.classList.add('on');
+    clearTimeout(setExec._t);
+    setExec._t = setTimeout(function(){ stamp.classList.remove('on'); }, 2200);
+  }
+  execs.forEach(function(b){ b.addEventListener('click', function(){ setExec(b.getAttribute('data-exec')); }); });
+  seamnote.textContent = EXEC.hermes;
+
+  /* the L4 gate — mirrors role_analysis_allowed() in app/knowledge.py */
+  var FACTS_NEEDED = 4, FEATURES_NEEDED = 2;
+  var facts = 2, feats = 1;
+  var fc = document.getElementById('fcount'), sc = document.getElementById('scount');
+  var verdict = document.getElementById('verdict');
+  var rung = document.getElementById('rung4');
+  var r4h = document.getElementById('r4h');
+  var r4p = document.getElementById('r4p');
+  function renderGate(){
+    fc.textContent = facts; sc.textContent = feats;
+    var reason = null;
+    if(facts < FACTS_NEEDED){
+      reason = 'professional context coverage too low (' + facts + '/' + FACTS_NEEDED + ' facts)';
+    } else if(feats < FEATURES_NEEDED){
+      reason = 'relevant feature confidence too low (' + feats + '/' + FEATURES_NEEDED + ' supported features)';
+    }
+    var open = reason === null;
+    rung.classList.toggle('gated', !open);
+    verdict.classList.toggle('open', open);
+    if(open){
+      verdict.innerHTML = '<b>allowed</b> \u2014 <span class="mono">evidence sufficient</span>';
+      r4h.textContent = 'Actionable conclusions \u2014 released';
+      r4p.textContent = 'Specific directions may now be ranked, against versioned thresholds, and the analysis records which evidence let it through.';
+    } else {
+      verdict.innerHTML = '<b>blocked</b> \u2014 <span class="mono">' + reason + '</span>';
+      r4h.textContent = 'Actionable conclusions \u2014 withheld';
+      r4p.textContent = 'Until both conditions hold, the system offers broad direction families instead, and says which half of the evidence is thin.';
+    }
+  }
+  function bind(id, fn){ document.getElementById(id).addEventListener('click', function(){ fn(); renderGate(); }); }
+  bind('fplus',  function(){ facts = Math.min(6, facts + 1); });
+  bind('fminus', function(){ facts = Math.max(0, facts - 1); });
+  bind('splus',  function(){ feats = Math.min(4, feats + 1); });
+  bind('sminus', function(){ feats = Math.max(0, feats - 1); });
+  renderGate();
+})();
+</script>
+
+<script>
+(function(){
+  var root = document.documentElement, btn = document.getElementById('themetoggle');
+  function label(){
+    var t = root.getAttribute('data-theme');
+    btn.textContent = t === 'dark' ? 'Dark' : (t === 'light' ? 'Light' : 'Auto');
+  }
+  try{ var saved = localStorage.getItem('viva-theme'); if(saved) root.setAttribute('data-theme', saved); }catch(e){}
+  label();
+  btn.addEventListener('click', function(){
+    var order = ['', 'light', 'dark'];
+    var next = order[(order.indexOf(root.getAttribute('data-theme') || '') + 1) % 3];
+    if(next) root.setAttribute('data-theme', next); else root.removeAttribute('data-theme');
+    try{ next ? localStorage.setItem('viva-theme', next) : localStorage.removeItem('viva-theme'); }catch(e){}
+    label();
+  });
+})();
+</script>
+
+</body>
+</html>
